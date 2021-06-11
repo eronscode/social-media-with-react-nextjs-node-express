@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { HeaderMessage, FooterMessage } from '../components/common/WelcomeMessage'
 import { Form, Button, Message, Segment, TextArea, Divider } from 'semantic-ui-react';
 import CommonInputs from '../components/common/CommonInputs';
@@ -25,7 +25,10 @@ function Signup() {
     const [usernameLoading, setUsernameLoading] = useState(false)
     const [usernameAvailable, setUsernameAvailable] = useState(null)
     
-   
+    const [media, setMedia] = useState(null)
+    const [mediaPreview, setMediaPreview] = useState(null)
+    const [highlighted, setHighlighted] = useState(false)
+    const inputRef = useRef();
 
 
 
