@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { HeaderMessage, FooterMessage } from '../components/common/WelcomeMessage'
 import { Form, Button, Message, Segment, TextArea, Divider } from 'semantic-ui-react';
+import CommonInputs from '../components/common/CommonInputs';
 
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
 
@@ -17,15 +18,23 @@ function Signup() {
 
     const [errorMsg, setErrorMsg] = useState(null)
     const [formLoading, setFormLoading] = useState(false)
+    const [submitDisabled, setSubmitDisabled] = useState(true)
 
 
     const [username, setUsername] = useState("")
     const [usernameLoading, setUsernameLoading] = useState(false)
     const [usernameAvailable, setUsernameAvailable] = useState(null)
+    
+   
 
 
 
     const {name, email, password, bio } = user;
+
+    useEffect(() =>{
+        const isUser = Object.values({name, email, password, bio}).every(item => Boolean(item))
+        isUser ? setSubmitDisabled(false) : setSubmitDisabled(true)
+    },[user])
 
     function handleSubmit(e){
         e.preventDefault();
@@ -48,7 +57,7 @@ function Signup() {
           loading={formLoading}
           error={errorMsg !== null}
           onSubmit={handleSubmit}
-        ></Form>
+        >
         <Message
           error
           header="Oops!"
@@ -87,36 +96,46 @@ function Signup() {
             onChange={handleChange}
             fluid
             icon={{
-                name:"eye",
-                circular: true,
-                link:true,
-                onClick: () => setShowPassword(!showPassword)
+              name: "eye",
+              circular: true,
+              link: true,
+              onClick: () => setShowPassword(!showPassword),
             }}
-            type={showPassword ?'text':'password'}
+            type={showPassword ? "text" : "password"}
             iconPosition="left"
             required
           />
 
-            <Form.Input
-                loading={usernameLoading}
-                error={!usernameAvailable}
-                label="username"
-                placeholder="username"
-                name="username"
-                value={username}
-                onChange={(e) =>{
-                    if(regexUserName.test(e.target.value)){
-                        setUsernameAvailable(true)
-                    }else{
-                        setUsernameAvailable(false)
-                    }
-                }}
-                fluid
-                icon={usernameAvailable ? 'check' : 'close'}
-                iconPosition="left"
-                required
-            />
+          <Form.Input
+            loading={usernameLoading}
+            error={!usernameAvailable}
+            label="username"
+            placeholder="username"
+            name="username"
+            value={username}
+            onChange={(e) => {
+              if (regexUserName.test(e.target.value)) {
+                setUsernameAvailable(true);
+                setUsername(e.target.value)
+              } else {
+                setUsernameAvailable(false);
+              }
+            }}
+            fluid
+            icon={usernameAvailable ? "check" : "close"}
+            iconPosition="left"
+            required
+          />
+
+          <CommonInputs 
+            user={user} 
+            showSocialLinks={showSocialLinks} 
+            setShowSocialLinks={setShowSocialLinks} 
+            handleChange={handleChange} />
+            <Divider hidden />
+            <Button content="Signup" type="submit" color="orange" disabled={submitDisabled || !usernameAvailable} />
         </Segment>
+        </Form>
         <FooterMessage />
       </>
     );
