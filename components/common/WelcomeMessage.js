@@ -27,9 +27,9 @@ function FooterMessage(){
             {signupRoute ? (
                 <>
                     <Message attached="bottom" warning>
-                        <Icon name="help">
+                        <Icon name="help" />
                             Exiting User ? <Link href="/login">Login Here Instead</Link>
-                        </Icon>
+                       
                     </Message>
                     <Divider hidden />
                 </>
