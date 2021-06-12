@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { HeaderMessage, FooterMessage } from '../components/common/WelcomeMessage'
 import { Form, Button, Message, Segment, TextArea, Divider } from 'semantic-ui-react';
 import CommonInputs from '../components/common/CommonInputs';
+import ImageDropDiv from '../components/common/ImageDropDiv';
 
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
 
@@ -44,7 +45,13 @@ function Signup() {
     }
 
     function handleChange(e){
-        const {name, value} = e.target;
+        const {name, value, files} = e.target;
+        
+        if(name==="media"){
+            setMedia(files[0]);
+            setMediaPreview(URL.createObjectURL(files[0]))
+        }
+
         setUser(prev => ({
             ...prev,
             [name]:value
@@ -68,6 +75,15 @@ function Signup() {
           onDismiss={() => setErrorMsg(null)}
         />
         <Segment>
+        <ImageDropDiv 
+            mediaPreview={mediaPreview}
+            highlighted={highlighted}
+            setHighlighted={setHighlighted}
+            inputRef={inputRef}
+            handleChange={handleChange}
+            setMedia={setMedia}
+            setMediaPreview={setMediaPreview}
+        />
           <Form.Input
             label="Name"
             placeholder="Name"
