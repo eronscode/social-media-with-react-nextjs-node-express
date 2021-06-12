@@ -15,8 +15,8 @@ function Signup() {
         facebook:""
     });
     const [showSocialLinks, setShowSocialLinks] = useState(false)
+    
     const [showPassword, setShowPassword] = useState(false)
-
     const [errorMsg, setErrorMsg] = useState(null)
     const [formLoading, setFormLoading] = useState(false)
     const [submitDisabled, setSubmitDisabled] = useState(true)
