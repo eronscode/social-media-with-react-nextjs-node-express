@@ -13,7 +13,7 @@ const userPng = "https://res.cloudinary.com/indersingh/image/upload/v1593464618/
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
 
 
-router.get(":/username", async(req, res)=>{
+router.get("/:username", async(req, res)=>{
     const {username} = req.params
     try{
         if(username.length<1) return res.status(401).send('Invalid')
@@ -31,7 +31,7 @@ router.get(":/username", async(req, res)=>{
 })
 
 
-router.post(":/", async(req, res)=>{
+router.post("/", async(req, res)=>{
     const {
         name,
         email,

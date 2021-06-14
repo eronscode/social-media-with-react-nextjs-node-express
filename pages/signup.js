@@ -3,6 +3,8 @@ import { HeaderMessage, FooterMessage } from '../components/common/WelcomeMessag
 import { Form, Button, Message, Segment, TextArea, Divider } from 'semantic-ui-react';
 import CommonInputs from '../components/common/CommonInputs';
 import ImageDropDiv from '../components/common/ImageDropDiv';
+import axios from 'axios';
+import baseUrl from '../utils/baseUrl'
 
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
 
@@ -42,6 +44,23 @@ function Signup() {
         const isUser = Object.values({name, email, password, bio}).every(item => Boolean(item))
         isUser ? setSubmitDisabled(false) : setSubmitDisabled(true)
     },[user])
+
+    useEffect(()=>{
+        username === "" ? setUsernameAvailable(false):checkUsername()
+    },[username])
+
+
+    async function checkUsername(){
+        setUsernameLoading(true);
+        try {
+            const res = await axios.get(`${baseUrl}/api/signup/${username}`)
+            if(res.data === "Available") setUsernameAvailable(true); setUser(prev => ({...prev, username }));
+        } catch (error) {
+            setErrorMsg("Username Not Available");
+            setUsernameAvailable(false);
+        }
+        setUsernameLoading(false);
+    }
 
     function handleSubmit(e){
         e.preventDefault();
