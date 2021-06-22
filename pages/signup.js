@@ -5,8 +5,11 @@ import CommonInputs from '../components/common/CommonInputs';
 import ImageDropDiv from '../components/common/ImageDropDiv';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl'
+import { useAuthUser, useCheckUsername } from '../utils/hooks/useAuthUser';
+import { uploadPic } from '../utils/uploadPicToCloudinary';
 
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
+
 
 function Signup() {
     const [user, setUser] = useState({
@@ -20,21 +23,20 @@ function Signup() {
         instagram:""
     });
     const [showSocialLinks, setShowSocialLinks] = useState(false)
-
     const [showPassword, setShowPassword] = useState(false)
-    const [errorMsg, setErrorMsg] = useState(null)
-    const [formLoading, setFormLoading] = useState(false)
     const [submitDisabled, setSubmitDisabled] = useState(true)
-
-
-    const [username, setUsername] = useState("")
-    const [usernameLoading, setUsernameLoading] = useState(false)
-    const [usernameAvailable, setUsernameAvailable] = useState(null)
     
     const [media, setMedia] = useState(null)
     const [mediaPreview, setMediaPreview] = useState(null)
     const [highlighted, setHighlighted] = useState(false)
     const inputRef = useRef();
+
+    const { errorMsg, setErrorMsg, formLoading, setFormLoading, registerUser } = useAuthUser();
+      const { username, usernameAvailable, usernameLoading, setUsername, setUsernameLoading, setUsernameAvailable } = useCheckUsername(
+        errorMsg,
+        setErrorMsg,
+        setUser
+      );
 
 
 
@@ -45,35 +47,33 @@ function Signup() {
         isUser ? setSubmitDisabled(false) : setSubmitDisabled(true)
     },[user])
 
-    useEffect(()=>{
-        username === "" ? setUsernameAvailable(false):checkUsername()
-    },[username])
+    
 
 
-    async function checkUsername(){
-        setUsernameLoading(true);
-        try {
-            const res = await axios.get(`${baseUrl}/api/signup/${username}`)
-            if(res.data === "Available") setUsernameAvailable(true); setUser(prev => ({...prev, username }));
-        } catch (error) {
-            setErrorMsg("Username Not Available");
-            setUsernameAvailable(false);
-        }
-        setUsernameLoading(false);
-    }
+    
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
+        setFormLoading(true)
+        let profilePicUrl;
+        if(media!==null){
+          profilePicUrl = await uploadPic(media)
+        }
+
+        if(media!==null && !profilePicUrl){
+          setFormLoading(false);
+          return setErrorMsg('Error uploading image')
+        }
+
+        await registerUser('signup', user, profilePicUrl)
     }
 
     function handleChange(e){
         const {name, value, files} = e.target;
-        
         if(name==="media"){
             setMedia(files[0]);
             setMediaPreview(URL.createObjectURL(files[0]))
         }
-
         setUser(prev => ({
             ...prev,
             [name]:value

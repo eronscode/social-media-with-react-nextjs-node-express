@@ -13,3 +13,7 @@ async function uploadPic(media){
         
     }
 }
+
+export {
+    uploadPic
+}
