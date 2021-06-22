@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { HeaderMessage, FooterMessage } from '../components/common/WelcomeMessage'
 import { Form, Button, Message, Segment, TextArea, Divider } from 'semantic-ui-react';
+import { useAuthUser } from '../utils/hooks/useAuthUser';
 
 function Login() {
     
@@ -8,20 +9,26 @@ function Login() {
         email:"",
         password:""
     });
-    const [errorMsg, setErrorMsg] = useState(null)
-    const [formLoading, setFormLoading] = useState(false)
+    
     const [submitDisabled, setSubmitDisabled] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
 
     const {email, password } = user;
+
+    const { errorMsg,
+      setErrorMsg,
+      formLoading,
+      setFormLoading,
+      loginUser } = useAuthUser()
     
     useEffect(() =>{
         const isUser = Object.values({email, password}).every(item => Boolean(item))
         isUser ? setSubmitDisabled(false) : setSubmitDisabled(true)
     },[user])
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault()
+        await loginUser('auth', user)
     }
 
     function handleChange(e){

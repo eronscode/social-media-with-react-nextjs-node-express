@@ -27,12 +27,28 @@ function useAuthUser(){
         setFormLoading(false)
     }
 
+    async function loginUser(api, user){
+        setFormLoading(true)
+        setErrorMsg(null)
+        try {
+            const response =   await axios.post(`${baseUrl}/api/${api}`,{
+                user
+            })
+
+            setToken(response.data)
+        } catch (error) {
+            setErrorMsg(catchErrors(error))
+        }
+        setFormLoading(false)
+    }
+
     return{
         errorMsg,
         setErrorMsg,
         formLoading,
         setFormLoading,
-        registerUser
+        registerUser,
+        loginUser
     }
 
 }

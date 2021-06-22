@@ -15,7 +15,7 @@ const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
 
 
 
-router.post(":/", async(req, res)=>{
+router.post("/", async(req, res)=>{
     const {
         email,
         password
