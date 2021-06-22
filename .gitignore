@@ -35,4 +35,5 @@ yarn-error.log*
 .vercel
 
 #build
-.next
+.next/
+.config.env
