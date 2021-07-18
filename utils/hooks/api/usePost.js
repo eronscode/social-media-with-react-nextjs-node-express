@@ -1,6 +1,6 @@
 import axios from "axios";
 import baseUrl from "../../baseUrl";
-import catchErrors from "./catchErrors";
+import catchErrors from "../../catchErrors";
 import cookie from "js-cookie";
 
 const Axios = axios.create({
