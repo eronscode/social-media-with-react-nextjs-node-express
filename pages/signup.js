@@ -5,7 +5,7 @@ import CommonInputs from '../components/Common/CommonInputs';
 import ImageDropDiv from '../components/Common/ImageDropDiv';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl'
-import { useAuthUser, useCheckUsername } from '../utils/hooks/useAuthUser';
+import { useAuthUser, useCheckUsername } from '../utils/hooks/api/useAuthUser';
 import { uploadPic } from '../utils/uploadPicToCloudinary';
 
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;

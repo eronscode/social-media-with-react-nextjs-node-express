@@ -4,7 +4,7 @@ import PostComments from "./PostComments";
 import CommentInputField from "./CommentInputField";
 import calculateTime from "../../utils/calculateTime";
 import Link from "next/link";
-import { likePost } from "../../utils/postActions";
+import { likePost } from "../../utils/hooks/api/usePost";
 import LikesList from "./LikesList";
 
 function ImageModal({

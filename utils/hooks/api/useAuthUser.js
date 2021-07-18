@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import baseUrl from "../baseUrl";
-import catchErrors from "../catchErrors";
+import baseUrl from "../../baseUrl";
+import catchErrors from "../../catchErrors";
 import Router from "next/router";
 import cookie from "js-cookie";
 

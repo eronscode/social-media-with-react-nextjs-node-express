@@ -14,7 +14,7 @@ import PostComments from "./PostComments";
 import CommentInputField from "./CommentInputField";
 import calculateTime from "../../utils/calculateTime";
 import Link from "next/link";
-import { deletePost, likePost } from "../../utils/postActions";
+import { deletePost, likePost } from "../../utils/hooks/api/usePost";
 import LikesList from "./LikesList";
 import ImageModal from "./ImageModal";
 import NoImageModal from "./NoImageModal";

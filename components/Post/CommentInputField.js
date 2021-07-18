@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "semantic-ui-react";
-import { postComment } from "../../utils/postActions";
+import { postComment } from "../../utils/hooks/api/usePost";
 
 function CommentInputField({ postId, user, setComments }) {
   const [text, setText] = useState("");

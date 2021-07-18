@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../components/Layout/Layout";
 import "semantic-ui-css/semantic.min.css";
 import axios from "axios";
-import { redirectUser } from "../utils/hooks/useAuthUser";
+import { redirectUser } from "../utils/hooks/api/useAuthUser";
 import {parseCookies, destroyCookie } from "nookies";
 import "react-toastify/dist/ReactToastify.css";
 import baseUrl from "../utils/baseUrl";

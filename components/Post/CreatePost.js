@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Form, Button, Image, Divider, Message, Icon } from "semantic-ui-react";
 import uploadPic from "../../utils/uploadPicToCloudinary";
-import { submitNewPost } from "../../utils/postActions";
+import { submitNewPost } from "../../utils/hooks/api/usePost";
 
 function CreatePost({ user, setPosts }) {
   const [newPost, setNewPost] = useState({ text: "", location: "" });
