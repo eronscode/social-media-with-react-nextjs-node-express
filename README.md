@@ -2,7 +2,7 @@
 
 A social media app showing most functionalities of popular social medias like facebook, twitter e.t.c
 
-# Features
+## Features
 - Real-time messaging with websockets
 - Like, unlike posts
 - follow and unfollow users
