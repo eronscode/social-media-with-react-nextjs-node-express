@@ -17,8 +17,7 @@ const {
 router.post("/", authMiddleware, async (req, res) => {
   const { text, location, picUrl } = req.body;
 
-  if (text.length < 1)
-    return res.status(401).send("Text must be atleast 1 character");
+  if (text.length < 1) return res.status(401).send("Text must be atleast 1 character");
 
   try {
     const newPost = {
@@ -39,71 +38,69 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// GET ALL POSTS API ROUTE
+// GET ALL POSTS
+
 router.get("/", authMiddleware, async (req, res) => {
   const { pageNumber } = req.query;
- 
+
+  const number = Number(pageNumber);
+  const size = 8;
+
   try {
-    const number = Number(pageNumber);
-    const size = 8;
-    const { userId } = req;
- 
-    const loggedUser = await FollowerModel.findOne({ user: userId }).select(
-      "-followers"
-    );
- 
-    let posts = [];
- 
+    let posts;
+
     if (number === 1) {
-      if (loggedUser.following.length > 0) {
-        posts = await PostModel.find({
-          user: {
-            $in: [userId, ...loggedUser.following.map(following => following.user)]
-          }
-        })
-          .limit(size)
-          .sort({ createdAt: -1 })
-          .populate("user")
-          .populate("comments.user");
-      }
-      //
-      else {
-        posts = await PostModel.find({ user: userId })
-          .limit(size)
-          .sort({ createdAt: -1 })
-          .populate("user")
-          .populate("comments.user");
-      }
+      posts = await PostModel.find()
+        .limit(size)
+        .sort({ createdAt: -1 })
+        .populate("user")
+        .populate("comments.user");
     }
- 
     //
     else {
       const skips = size * (number - 1);
- 
-      if (loggedUser.following.length > 0) {
-        posts = await PostModel.find({
-          user: {
-            $in: [userId, ...loggedUser.following.map(following => following.user)]
-          }
-        })
-          .skip(skips)
-          .limit(size)
-          .sort({ createdAt: -1 })
-          .populate("user")
-          .populate("comments.user");
-      }
-      //
-      else {
-        posts = await PostModel.find({ user: userId })
-          .skip(skips)
-          .limit(size)
-          .sort({ createdAt: -1 })
-          .populate("user")
-          .populate("comments.user");
-      }
+      posts = await PostModel.find()
+        .skip(skips)
+        .limit(size)
+        .sort({ createdAt: -1 })
+        .populate("user")
+        .populate("comments.user");
     }
- 
-    return res.json(posts);
+
+    if (posts.length === 0) {
+      return res.json([]);
+    }
+
+    let postsToBeSent = [];
+    const { userId } = req;
+
+    const loggedUser = await FollowerModel.findOne({ user: userId });
+
+    if (loggedUser.following.length === 0) {
+      postsToBeSent = posts.filter(post => post.user._id.toString() === userId);
+    }
+    //
+    else {
+      for (let i = 0; i < loggedUser.following.length; i++) {
+        const foundPostsFromFollowing = posts.filter(
+          post =>
+            post.user._id.toString() === loggedUser.following[i].user.toString() 
+        );
+
+        if (foundPostsFromFollowing.length > 0) postsToBeSent.push(...foundPostsFromFollowing);
+      }
+      
+      const foundOwnPosts = posts.filter(post => post.user._id.toString() === userId);
+      if (foundOwnPosts.length > 0) postsToBeSent.push(...foundOwnPosts);
+      
+      
+    }
+
+     postsToBeSent.length > 0 &&
+      postsToBeSent.sort((a, b) => [new Date(b.createdAt) - new Date(a.createdAt)]);
+      
+      
+    return res.json(postsToBeSent);
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
@@ -173,8 +170,7 @@ router.post("/like/:postId", authMiddleware, async (req, res) => {
       return res.status(404).send("No Post found");
     }
 
-    const isLiked =
-      post.likes.filter(like => like.user.toString() === userId).length > 0;
+    const isLiked = post.likes.filter(like => like.user.toString() === userId).length > 0;
 
     if (isLiked) {
       return res.status(401).send("Post already liked");
@@ -254,6 +250,7 @@ router.post("/comment/:postId", authMiddleware, async (req, res) => {
   try {
     const { postId } = req.params;
 
+    const { userId } = req;
     const { text } = req.body;
 
     if (text.length < 1)
@@ -266,7 +263,7 @@ router.post("/comment/:postId", authMiddleware, async (req, res) => {
     const newComment = {
       _id: uuid(),
       text,
-      user: req.userId,
+      user: userId,
       date: Date.now()
     };
 
