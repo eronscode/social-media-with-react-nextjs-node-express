@@ -168,3 +168,46 @@ router.get("/followers/:userId", authMiddleware, async (req, res) => {
       res.status(500).send("server error");
     }
   });
+
+
+
+  // UPDATE PROFILE
+router.post("/update", authMiddleware, async (req, res) => {
+    try {
+      const { userId } = req;
+  
+      const { bio, facebook, youtube, twitter, instagram, profilePicUrl } = req.body;
+  
+      let profileFields = {};
+      profileFields.user = userId;
+  
+      profileFields.bio = bio;
+  
+      profileFields.social = {};
+  
+      if (facebook) profileFields.social.facebook = facebook;
+  
+      if (youtube) profileFields.social.youtube = youtube;
+  
+      if (instagram) profileFields.social.instagram = instagram;
+  
+      if (twitter) profileFields.social.twitter = twitter;
+  
+      await ProfileModel.findOneAndUpdate(
+        { user: userId },
+        { $set: profileFields },
+        { new: true }
+      );
+  
+      if (profilePicUrl) {
+        const user = await UserModel.findById(userId);
+        user.profilePicUrl = profilePicUrl;
+        await user.save();
+      }
+  
+      return res.status(200).send("Success");
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send("Server Error");
+    }
+  });
