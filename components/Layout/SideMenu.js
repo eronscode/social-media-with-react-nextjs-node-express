@@ -43,7 +43,7 @@ function SideMenu({ user: { unreadNotification, email, unreadMessage, username }
         </Link>
         <br />
 
-        <Link href="/">
+        <Link href="/notifications">
           <List.Item active={isActive("/notifications")}>
             <Icon
               name={unreadNotification ? "hand point right" : "bell outline"}

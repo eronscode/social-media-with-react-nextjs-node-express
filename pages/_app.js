@@ -3,10 +3,10 @@ import Layout from "../components/Layout/Layout";
 import "semantic-ui-css/semantic.min.css";
 import axios from "axios";
 import { redirectUser } from "../utils/hooks/api/useAuthService";
-import {parseCookies, destroyCookie } from "nookies";
+import { parseCookies, destroyCookie } from "nookies";
 import "react-toastify/dist/ReactToastify.css";
 import baseUrl from "../utils/baseUrl";
-import '../components/styles/nprogress.css';
+import "../components/styles/nprogress.css";
 
 function App({ Component, pageProps }) {
   return (
@@ -20,7 +20,11 @@ App.getInitialProps = async ({ Component, ctx }) => {
   const { token } = parseCookies(ctx);
   let pageProps = {};
 
-  const protectedRoutes = ctx.pathname === "/" || ctx.pathname === "/[username]";
+  const protectedRoutes =
+    ctx.pathname === "/" ||
+    ctx.pathname === "/[username]" ||
+    ctx.pathname === "/notifications" ||
+    ctx.pathname === "/post/[postId]";
 
   if (!token) {
     protectedRoutes && redirectUser(ctx, "/login");
