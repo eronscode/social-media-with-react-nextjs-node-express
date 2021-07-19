@@ -6,6 +6,7 @@ import { logoutUser } from "../../utils/hooks/api/useAuthService";
 
 function SideMenu({
   user: { unreadNotification, email, unreadMessage, username },
+  pc = true,
 }) {
   const router = useRouter();
 
@@ -22,9 +23,7 @@ function SideMenu({
         <Link href="/">
           <List.Item active={isActive("/")}>
             <Icon name="home" size="large" color={isActive("/") && "teal"} />
-            <List.Content>
-              <List.Header content="Home" />
-            </List.Content>
+            <List.Content>{pc && <List.Header content="Home" />}</List.Content>
           </List.Item>
         </Link>
         <br />
@@ -38,7 +37,7 @@ function SideMenu({
             }
           />
           <List.Content>
-            <List.Header content="Messages" />
+            {pc && <List.Header content="Messages" />}
           </List.Content>
         </List.Item>
         <br />
@@ -54,7 +53,7 @@ function SideMenu({
               }
             />
             <List.Content>
-              <List.Header content="Notifications" />
+              {pc && <List.Header content="Notifications" />}
             </List.Content>
           </List.Item>
         </Link>
@@ -68,7 +67,7 @@ function SideMenu({
               color={router.query.username === username && "teal"}
             />
             <List.Content>
-              <List.Header content="Account" />
+              {pc && <List.Header content="Account" />}
             </List.Content>
           </List.Item>
         </Link>
@@ -76,9 +75,7 @@ function SideMenu({
 
         <List.Item onClick={() => logoutUser(email)}>
           <Icon name="log out" size="large" />
-          <List.Content>
-            <List.Header content="Logout" />
-          </List.Content>
+          <List.Content>{pc && <List.Header content="Logout" />}</List.Content>
         </List.Item>
       </List>
     </>
