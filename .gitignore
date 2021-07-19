@@ -36,4 +36,4 @@ yarn-error.log*
 
 #build
 .next/
-.config.env
+config.env

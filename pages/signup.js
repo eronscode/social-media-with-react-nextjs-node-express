@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { HeaderMessage, FooterMessage } from '../components/common/WelcomeMessage'
+import { HeaderMessage, FooterMessage } from '../components/Common/WelcomeMessage'
 import { Form, Button, Message, Segment, TextArea, Divider } from 'semantic-ui-react';
-import CommonInputs from '../components/common/CommonInputs';
-import ImageDropDiv from '../components/common/ImageDropDiv';
+import CommonInputs from '../components/Common/CommonInputs';
+import ImageDropDiv from '../components/Common/ImageDropDiv';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl'
-import { useAuthUser, useCheckUsername } from '../utils/hooks/useAuthUser';
+import { useAuthUser, useCheckUsername } from '../utils/hooks/api/useAuthService';
 import { uploadPic } from '../utils/uploadPicToCloudinary';
 
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
