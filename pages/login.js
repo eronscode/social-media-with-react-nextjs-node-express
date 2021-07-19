@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { HeaderMessage, FooterMessage } from '../components/Common/WelcomeMessage'
 import { Form, Button, Message, Segment, TextArea, Divider } from 'semantic-ui-react';
-import { useAuthUser } from '../utils/hooks/api/useAuthUser';
+import { useAuthUser } from '../utils/hooks/api/useAuthService';
 
 function Login() {
     
