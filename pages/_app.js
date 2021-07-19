@@ -6,6 +6,7 @@ import { redirectUser } from "../utils/hooks/api/useAuthService";
 import {parseCookies, destroyCookie } from "nookies";
 import "react-toastify/dist/ReactToastify.css";
 import baseUrl from "../utils/baseUrl";
+import '../components/styles/nprogress.css';
 
 function App({ Component, pageProps }) {
   return (
