@@ -17,3 +17,8 @@ React, Nextjs, Node, Express and MongoDB
 1. Download and Install Node JS from https://nodejs.org/en/download/
 2. In the root project directory, type ```npm install``` to install the project's dependencies.
 3. Once installation is complete, type ```npm run dev``` to start the project in your local browser. This will start up both the front end and backend project.
+
+#### NOTE: 
+Add environment variables as stated in ```.config.env.example```
+
+Gracias
