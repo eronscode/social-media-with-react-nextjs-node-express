@@ -31,7 +31,7 @@ function Notifications({ notifications, errorLoading, user, userFollowStats }) {
   return (
     <>
       <Container style={{ marginTop: "1.5rem" }}>
-        {notifications.length > 0 ? (
+        {notifications?.length > 0 ? (
           <Segment color="teal" raised>
             <div
               style={{

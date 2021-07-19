@@ -41,7 +41,7 @@ function Chat({ chat, connectedUsers, deleteChat }) {
               </Comment.Metadata>
 
               <Comment.Text>
-                {chat.lastMessage.length > 20
+                {chat?.lastMessage?.length > 20
                   ? `${chat.lastMessage.substring(0, 20)} ...`
                   : chat.lastMessage}
               </Comment.Text>
