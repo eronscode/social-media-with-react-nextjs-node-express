@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Feed, Divider } from "semantic-ui-react";
 import calculateTime from "../../utils/calculateTime";
 
@@ -13,16 +14,16 @@ function LikeNotification({ notification }) {
               <Feed.User as="a" href={`/${notification.user.username}`}>
                 {notification.user.name}
               </Feed.User>{" "}
-              liked your <a href={`/post/${notification.post._id}`}>post.</a>
+              liked your <Link href={`/post/${notification.post._id}`}>post.</Link>
               <Feed.Date>{calculateTime(notification.date)}</Feed.Date>
             </>
           </Feed.Summary>
 
           {notification.post.picUrl && (
             <Feed.Extra images>
-              <a href={`/post/${notification.post._id}`}>
+              <Link href={`/post/${notification.post._id}`}>
                 <img src={notification.post.picUrl} />
-              </a>
+              </Link>
             </Feed.Extra>
           )}
         </Feed.Content>
