@@ -7,6 +7,7 @@ import { parseCookies, destroyCookie } from "nookies";
 import "react-toastify/dist/ReactToastify.css";
 import baseUrl from "../utils/baseUrl";
 import "../components/styles/nprogress.css";
+import "cropperjs/dist/cropper.css";
 
 function App({ Component, pageProps }) {
   return (
