@@ -10,6 +10,7 @@ const ProfileModel = require("../models/ProfileModel");
 const FollowerModel = require("../models/FollowerModel");
 const authMiddleware = require("../middleware/authMiddleware");
 const NotificationModel = require("../models/NotificationModel");
+const ChatModel = require("../models/ChatModel");
 
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
 
@@ -48,9 +49,17 @@ router.post("/", async (req, res) => {
       user: user._id,
     });
 
+    const chatModel = await ChatModel.findOne({
+        user: user._id,
+      });
+
     if (!notificationModel) {
       await new NotificationModel({ user: user._id, notifications: [] }).save();
     }
+
+    if (!chatModel) {
+        await new ChatModel({ user: user._id, chats: [] }).save();
+      }
 
     const payload = {
       userId: user._id,
